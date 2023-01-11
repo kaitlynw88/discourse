@@ -4,7 +4,7 @@ const NavBar =()=>{
             <nav>
                 <p>Login Page</p>
                 <p>aboutUs</p>
-                <p>Sing Up</p>
+                <p>Sign Up</p>
             </nav>
         </>
     );
