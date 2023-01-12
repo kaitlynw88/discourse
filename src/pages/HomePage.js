@@ -1,9 +1,23 @@
-import { signOut } from "firebase/auth";
-import React from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { auth } from "../firebase";
 
+const HomePage = () => {
+    const [authUser, setAuthUser] = useState(null);
 
-const HomePage = (props) => {
-    const auth = props.userProps
+    useEffect(() => {
+        const listen = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setAuthUser(user);
+            } else {
+                setAuthUser(null);
+            }
+        });
+        return () => {
+            listen();
+        };
+    }, [authUser]);
 
     const userSignOut = () => {
         signOut(auth);
@@ -11,11 +25,30 @@ const HomePage = (props) => {
 
     return (
         <>
-            <h2>Homepage</h2>
-            <p>user email is:{props.propsUserProps}</p>
-            <button onClick={userSignOut}>SignOut</button>
-       
-    
+            <div>
+                <h2>Dashboard</h2>
+                {authUser ? (
+                    <>
+                        <h2>{`user name is ${authUser.email}`}</h2>
+                        <button onClick={userSignOut}>Sign Out</button>
+                        <ul>
+                            <li>
+                                <Link to="/videoroom">Chat Room 1</Link>
+                            </li>
+                            <li>
+                                <Link to="/videoroom">Chat Room 2</Link>
+                            </li>
+                            <li>
+                                <Link to="/videoroom">Chat Room 3</Link>
+                            </li>
+                        </ul>
+                    </>
+                ) : (
+                    <button>
+                        <Link to="/Login"> Login</Link>
+                    </button>
+                )}
+            </div>
         </>
     );
 };

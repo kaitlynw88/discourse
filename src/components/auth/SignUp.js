@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import "../../styles/authstyles.scss";
 
 
 const SignUp =()=>{
@@ -35,7 +36,7 @@ const SignUp =()=>{
     }
     
     return (
-        <div>
+        <div className="authContainer">
             <h1>Create an Account: sign up page</h1>
             {error && <p>{error}</p>}
             <form onSubmit={signUp}>
