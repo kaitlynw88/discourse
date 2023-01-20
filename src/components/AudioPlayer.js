@@ -6,7 +6,7 @@ const AudioPlayer = ({user}) => {
 
     useEffect(()=>{
         user.videoTrack.play(ref.current)
-    },[])
+    },[user.videoTrack])
   return (
     <div>
         <div 
