@@ -5,7 +5,7 @@ import NavBar from './components/NavBar';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 import HomePage from './pages/HomePage';
-import VideoRoom from './pages/VideoRoom';
+import VideoRoom from './pages/VideoRoom'
 
  
 function App() {
