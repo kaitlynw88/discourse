@@ -38,10 +38,10 @@ const HomePage = () => {
         <>
             <div className="flexContainer">
                
-                <h2>Dashboard</h2>
                 {authUser ? (
                     <>
                     <h2>{`Welcome ${authUser.email}!!!`}</h2>
+                    <p>This is your dashboard</p>
 
                     {!joined && (
                         <button onClick={()=> setJoined(true)}>

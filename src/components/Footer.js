@@ -1,7 +1,7 @@
 const Footer = ()=>{
     return(
         <>
-            <p>this is the footer</p>
+            <p>discourse | 2023 | Co.lab cohort16</p>
         </>
     )
 }

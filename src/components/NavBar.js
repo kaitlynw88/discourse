@@ -2,8 +2,8 @@ const NavBar =()=>{
     return (
         <>
             <nav>
-                <p>Logo here</p>
-                <p>links to internal pages here</p>
+                <h1>DISCOURSE</h1>
+                <p>No likes, no fluff, just community</p>
             </nav>
         </>
     );
