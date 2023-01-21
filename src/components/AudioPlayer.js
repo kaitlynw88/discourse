@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import "../styles/audioplayer.scss"
 
 const AudioPlayer = ({user}) => {
 
@@ -10,8 +11,8 @@ const AudioPlayer = ({user}) => {
   return (
     <div>
         <div 
-        ref={ref}
-        style={{width:"200px", height:"200px"}}>
+        className='userVideo'
+        ref={ref}>
         </div>
     </div>
   )

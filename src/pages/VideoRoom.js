@@ -1,12 +1,13 @@
 import "../styles/videoRoom.scss";
-import { Link } from "react-router-dom";
 import AgoraRTC, {createClient} from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 //  
 import AudioPlayer from "../components/AudioPlayer";
 const APP_ID = "c09cde14905f4906951bfbc5deebf2b8";
 const TOKEN =
-    "007eJxTYNDiXPdj6rLfUf/+aV1S6r7DqTOxj23lus3ML7a90t9npzNNgSHZwDI5JdXQxNLANA1ImFmaGialJSWbpqSmJqUZJVm8+X0quSGQkeGO20xWRgYIBPE5GVIyi5PzS4uKUxkYAKrfJLQ=";
+    "007eJxTYOjTz12bwuzd1Jkj9OBZwtNJhRzirqtqnqiGL5BKPSjHulaBIdnAMjkl1dDE0sA0DUiYWZoaJqUlJZumpKYmpRklWcwMPpPcEMjI4LxLhoERCkF8ToaUzOLk/NKi4lQGBgBmnCAI";
+
+    // we will have to generate these tokens somehow
 const CHANNEL = "discourse"
 
 AgoraRTC.setLogLevel(4);
@@ -81,7 +82,7 @@ const createAgoraClient = ({ onVideoTrack, onUserDisconnected }) => {
 
    
 
-const VideoRoom =()=>{
+const VideoRoom =(props)=>{
     const [users, setUsers]=useState([])
     const [uid, setUid]=useState(null)
 
@@ -132,10 +133,10 @@ const VideoRoom =()=>{
     return (
         <>
             <h1>This is the video room</h1>
+            <p>chat with you friends about the "topic of the day"</p>
             <div className="roomContainer">
-                
-                <ul className="chatLog">
-                    <h3>Chat log</h3> 
+                {/* <ul className="chatLog">
+                    <h3>Chat log</h3>
                     <li>
                         <p>username1</p>
                         <p>
@@ -160,23 +161,21 @@ const VideoRoom =()=>{
                         </p>
                         <p>datestamp3</p>
                     </li>
-                </ul>
-
-                {users.map((user)=>{ 
-                    return(
-
-                        <div>
-                            {uid}
-                            <AudioPlayer key={user.uid} user={user}/>
-                        </div>
-
-                    )
-                })}
-                
+                </ul> */}
+                <div className="videoPlayerContainer">
+                    {users.map((user) => {
+                        return (
+                            <div className="userContainer">
+                                <p>{uid}</p>
+                                <AudioPlayer key={user.uid} user={user} />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-            <button>
+            {/* <button>
                 <Link to="/">back to dashboard</Link>
-            </button>
+            </button> */}
         </>
     );
 }
