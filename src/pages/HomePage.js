@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import VideoRoom from "./VideoRoom";
+import "../styles/homepage.scss"
 
 
 export const MOD = "MOD";
@@ -35,30 +36,24 @@ const HomePage = () => {
     
     return (
         <>
-            <div>
-                <p>This will send us to the room!</p>
+            <div className="flexContainer">
+               
                 <h2>Dashboard</h2>
                 {authUser ? (
                     <>
-                    <h2>{`user name is ${authUser.email}`}</h2>
-                    <button onClick={userSignOut}>Sign Out</button>
-
-
+                    <h2>{`Welcome ${authUser.email}!!!`}</h2>
 
                     {!joined && (
                         <button onClick={()=> setJoined(true)}>
-                            Join this room
+                            Join the topic of the day
                         </button>
                     )}
                     {joined && (
                         <VideoRoom userName={authUser.email}/>
-                    )
-
+                        )
+                        
                     }
-
-
-
-
+                    <button onClick={userSignOut}>Sign Out</button>
 
                   </>      
                 ) : (
