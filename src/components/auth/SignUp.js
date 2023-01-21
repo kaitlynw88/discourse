@@ -37,7 +37,7 @@ const SignUp =()=>{
     
     return (
         <div className="authContainer">
-            <h1>Create an Account: sign up page</h1>
+            <h1>Create an Account</h1>
             {error && <p>{error}</p>}
             <form onSubmit={signUp}>
                 <p>
