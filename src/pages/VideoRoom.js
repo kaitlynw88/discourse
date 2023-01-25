@@ -1,14 +1,13 @@
-import "../styles/videoRoom.scss";
-import AgoraRTC, {createClient} from "agora-rtc-sdk-ng";
-import { useEffect, useState } from "react";
-//  
-import AudioPlayer from "../components/AudioPlayer";
-const APP_ID = "c09cde14905f4906951bfbc5deebf2b8";
-const TOKEN =
-    "007eJxTYOjTz12bwuzd1Jkj9OBZwtNJhRzirqtqnqiGL5BKPSjHulaBIdnAMjkl1dDE0sA0DUiYWZoaJqUlJZumpKYmpRklWcwMPpPcEMjI4LxLhoERCkF8ToaUzOLk/NKi4lQGBgBmnCAI";
+import React, { useEffect, useState } from "react";
+import AgoraRTC, { createClient } from "agora-rtc-sdk-ng";
+import VideoPlayer from "../components/VideoPlayer.js";
+import Controls from "../components/Controls.js";
+import ChatContainer from "../components/ChatContainer.js";
 
-    // we will have to generate these tokens somehow
-const CHANNEL = "discourse"
+const APP_ID = "99ee7677a8a745ed94b7f7f03fdab53e";
+const TOKEN =
+    "007eJxTYGB7KNMQzvx+7sEOvZol8c8VVb+xLz7ku3fD9Gs5FpdXG1YrMCQbWCanpBqaWBqYpgEJM0tTw6S0pGTTlNTUpDSjJIuv7heSGwIZGapZZjAzMkAgiM/JkJJZnJxfWlScysAAAB9kIoY=";
+const CHANNEL = "discourse";
 
 AgoraRTC.setLogLevel(4);
 
@@ -21,6 +20,7 @@ const createAgoraClient = ({ onVideoTrack, onUserDisconnected }) => {
     });
 
     let tracks;
+    
 
     const waitForConnectionState = (connectionState) => {
         return new Promise((resolve) => {
@@ -42,9 +42,6 @@ const createAgoraClient = ({ onVideoTrack, onUserDisconnected }) => {
             client.subscribe(user, mediaType).then(() => {
                 if (mediaType === "video") {
                     onVideoTrack(user);
-                }
-                if (mediaType === "audio") {
-                    user.audioTrack.play();
                 }
             });
         });
@@ -80,11 +77,10 @@ const createAgoraClient = ({ onVideoTrack, onUserDisconnected }) => {
     };
 };
 
-   
-
-const VideoRoom =(props)=>{
-    const [users, setUsers]=useState([])
-    const [uid, setUid]=useState(null)
+const VideoRoom = (props) => {
+    const [users, setUsers] = useState([]);
+    const [uid, setUid] = useState(null);
+    
 
     useEffect(() => {
         const onVideoTrack = (user) => {
@@ -129,55 +125,31 @@ const VideoRoom =(props)=>{
             agoraCommandQueue = agoraCommandQueue.then(cleanup);
         };
     }, []);
-    
+
     return (
         <>
-            <h1>This is the video room</h1>
-            <p>chat with you friends about the "topic of the day"</p>
-            <div className="roomContainer">
-                {/* <ul className="chatLog">
-                    <h3>Chat log</h3>
-                    <li>
-                        <p>username1</p>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Sequi, excepturi.
-                        </p>
-                        <p>date stamp1</p>
-                    </li>
-                    <li>
-                        <p>username2</p>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Magnam, quae?
-                        </p>
-                        <p>date stamp2</p>
-                    </li>
-                    <li>
-                        <p>username3</p>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Vitae, alias.
-                        </p>
-                        <p>datestamp3</p>
-                    </li>
-                </ul> */}
-                <div className="videoPlayerContainer">
-                    {users.map((user) => {
-                        return (
-                            <div className="userContainer">
-                                <p>{uid}</p>
-                                <AudioPlayer key={user.uid} user={user} />
-                            </div>
-                        );
-                    })}
+            <Controls/>
+            {uid}
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                }}
+            >
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(2, 200px)",
+                    }}
+                >
+                    {users.map((user) => (
+                        <VideoPlayer key={user.uid} user={user} />
+                    ))}
                 </div>
             </div>
-            {/* <button>
-                <Link to="/">back to dashboard</Link>
-            </button> */}
+            <ChatContainer userName={props.userName}/>
         </>
     );
-}
+};
 
-export default VideoRoom
+export default VideoRoom;

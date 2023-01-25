@@ -49,7 +49,10 @@ const HomePage = () => {
                         </button>
                     )}
                     {joined && (
+                        <>
                         <VideoRoom userName={authUser.email}/>
+                        <button onClick={()=>setJoined(false)}>to lobby</button>
+                        </>
                         )
                         
                     }
