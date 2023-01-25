@@ -1,19 +1,31 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export const VideoPlayer = ({ user }) => {
     const ref = useRef();
+    const [audio, setAudio]=useState(true)
+    const [video, setVideo] = useState(true);
 
     useEffect(() => {
         user.videoTrack.play(ref.current);
         user.audioTrack.play(ref.current)
     }, [user.videoTrack, user.audioTrack]);
 
-    const stopVideo=()=>{
-        user.videoTrack.stop()
+    const toggleVideo=()=>{
+        setVideo(!video);
+        if (!video) {
+            user.videoTrack.stop();
+        } else {
+            user.videoTrack.play(ref.current);
+        }
     }
 
-    const stopAudio = () => {
-        user.audioTrack.stop();
+    const toggleAudio = () => {
+        setAudio(!audio)
+        if(!audio){
+            user.audioTrack.stop();
+        }else{
+             user.audioTrack.play(ref.current);
+        }
     };
 
     return (
@@ -26,8 +38,8 @@ export const VideoPlayer = ({ user }) => {
                 ></div>
             </div>
             <div className="buttonContainer">
-                <button onClick={stopVideo}>stop video</button>
-                <button onClick={stopAudio}>stop Audio</button>
+                <button onClick={toggleVideo}>stop video</button>
+                <button onClick={toggleAudio}>stop Audio</button>
             </div>
         </>
     );
