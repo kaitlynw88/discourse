@@ -6,7 +6,7 @@ import ChatContainer from "../components/ChatContainer.js";
 
 const APP_ID = "99ee7677a8a745ed94b7f7f03fdab53e";
 const TOKEN =
-    "007eJxTYGB7KNMQzvx+7sEOvZol8c8VVb+xLz7ku3fD9Gs5FpdXG1YrMCQbWCanpBqaWBqYpgEJM0tTw6S0pGTTlNTUpDSjJIuv7heSGwIZGapZZjAzMkAgiM/JkJJZnJxfWlScysAAAB9kIoY=";
+    "007eJxTYDD5vu303bmbv8oH75tgwhH345pN3AaFupze87M+3tLpeNapwJBsYJmckmpoYmlgmgYkzCxNDZPSkpJNU1JTk9KMkiwE/C4mNwQyMihd1mdiZIBAEJ+TISWzODm/tKg4lYEBANf/JAA=";
 const CHANNEL = "discourse";
 
 AgoraRTC.setLogLevel(4);
