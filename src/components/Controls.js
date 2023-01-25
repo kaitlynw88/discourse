@@ -1,12 +1,22 @@
+// import React, { useEffect, useRef } from "react";
 
-const Controls= ()=> {
- 
+// const Controls = () => {
+//     // const ref = useRef();
 
-  return (
-    <div>
-      <h2>controls</h2>
-      
-    </div>
-  );
-}
-export default Controls
+//     const handleVideo=()=>{
+//       console.log("click")
+//     }
+
+//     const handleAudio = () => {
+//         console.log("click");
+//     };
+
+//     return (
+//         <div>
+//             <h2>controls</h2>
+//             <button onClick={handleVideo}>stop video</button>
+//             <button onClick={handleAudio}>stop audio</button>
+//         </div>
+//     );
+// };
+// export default Controls;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AgoraRTC, { createClient } from "agora-rtc-sdk-ng";
 import VideoPlayer from "../components/VideoPlayer.js";
-import Controls from "../components/Controls.js";
+
 import ChatContainer from "../components/ChatContainer.js";
 
 const APP_ID = "99ee7677a8a745ed94b7f7f03fdab53e";
@@ -128,7 +128,6 @@ const VideoRoom = (props) => {
 
     return (
         <>
-            <Controls/>
             {uid}
             <div
                 style={{
@@ -143,11 +142,13 @@ const VideoRoom = (props) => {
                     }}
                 >
                     {users.map((user) => (
-                        <VideoPlayer key={user.uid} user={user} />
+                        <>
+                            <VideoPlayer key={user.uid} user={user} />
+                        </>
                     ))}
                 </div>
             </div>
-            <ChatContainer userName={props.userName}/>
+            <ChatContainer userName={props.userName} />
         </>
     );
 };

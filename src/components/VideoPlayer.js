@@ -5,13 +5,29 @@ export const VideoPlayer = ({ user }) => {
 
     useEffect(() => {
         user.videoTrack.play(ref.current);
-    }, [user.videoTrack]);
+        user.audioTrack.play(ref.current)
+    }, [user.videoTrack, user.audioTrack]);
+
+    const stopVideo=()=>{
+        user.videoTrack.stop()
+    }
+
+    const stopAudio = () => {
+        user.audioTrack.stop();
+    };
 
     return (
         <>
             <div>
                 Uid: {user.uid}
-                <div ref={ref} style={{ width: "200px", height: "200px" }}></div>
+                <div
+                    ref={ref}
+                    style={{ width: "200px", height: "200px" }}
+                ></div>
+            </div>
+            <div className="buttonContainer">
+                <button onClick={stopVideo}>stop video</button>
+                <button onClick={stopAudio}>stop Audio</button>
             </div>
         </>
     );
