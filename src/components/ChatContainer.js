@@ -81,7 +81,7 @@ const ChatContainer = (props) => {
                   })}
               </ul>
               <form action="submit">
-                  <textarea
+                  <input
                       type="text"
                       id="newComment"
                       onChange={handleInputChange}
