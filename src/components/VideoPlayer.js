@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone,faMicrophoneSlash, faVideo, faVideoSlash } from "@fortawesome/free-solid-svg-icons"
+import { faMicrophoneLines,faMicrophoneLinesSlash, faVideo, faVideoSlash } from "@fortawesome/free-solid-svg-icons"
 
 export const VideoPlayer = ({ user }) => {
     const ref = useRef();
@@ -56,11 +56,11 @@ export const VideoPlayer = ({ user }) => {
                     {
                         (audio=== true) ?
                         <>
-                            <FontAwesomeIcon icon={faMicrophone} className="fa-fw" />
+                            <FontAwesomeIcon icon={faMicrophoneLines} className="fa-fw" />
                         </>
                         :
                         <>
-                            <FontAwesomeIcon icon={faMicrophoneSlash} className="fa-fw" />
+                            <FontAwesomeIcon icon={faMicrophoneLinesSlash} className="fa-fw" />
                         </>
                     }
                 </button>
