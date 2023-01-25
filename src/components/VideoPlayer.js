@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone,faMicrophoneSlash, faVideo, faVideoSlash } from "@fortawesome/free-solid-svg-icons"
 
 export const VideoPlayer = ({ user }) => {
     const ref = useRef();
-    const [audio, setAudio]=useState(true)
-    const [video, setVideo] = useState(true);
+    const [audio, setAudio]=useState(false)
+    const [video, setVideo] = useState(false);
 
     useEffect(() => {
         user.videoTrack.play(ref.current);
@@ -13,7 +15,7 @@ export const VideoPlayer = ({ user }) => {
     const toggleVideo=()=>{
         setVideo(!video);
         if (!video) {
-            user.videoTrack.stop();
+            user.videoTrack.stop(ref.current);
         } else {
             user.videoTrack.play(ref.current);
         }
@@ -22,7 +24,7 @@ export const VideoPlayer = ({ user }) => {
     const toggleAudio = () => {
         setAudio(!audio)
         if(!audio){
-            user.audioTrack.stop();
+            user.audioTrack.stop(ref.current);
         }else{
              user.audioTrack.play(ref.current);
         }
@@ -38,8 +40,30 @@ export const VideoPlayer = ({ user }) => {
                 ></div>
             </div>
             <div className="buttonContainer">
-                <button onClick={toggleVideo}>toggle video</button>
-                <button onClick={toggleAudio}>Toggle Audio</button>
+                <button onClick={toggleVideo}>
+                    {(video=== true ?
+                    <>
+                        <FontAwesomeIcon icon={faVideo} className="fa-fw" />
+                    </>
+                    :
+                    <>
+                        <FontAwesomeIcon icon={faVideoSlash} className="fa-fw" />
+                    </>
+                    ) 
+                    }
+                </button>
+                <button onClick={toggleAudio}>
+                    {
+                        (audio=== true) ?
+                        <>
+                            <FontAwesomeIcon icon={faMicrophone} className="fa-fw" />
+                        </>
+                        :
+                        <>
+                            <FontAwesomeIcon icon={faMicrophoneSlash} className="fa-fw" />
+                        </>
+                    }
+                </button>
             </div>
         </>
     );
