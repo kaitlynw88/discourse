@@ -38,8 +38,8 @@ export const VideoPlayer = ({ user }) => {
                 ></div>
             </div>
             <div className="buttonContainer">
-                <button onClick={toggleVideo}>stop video</button>
-                <button onClick={toggleAudio}>stop Audio</button>
+                <button onClick={toggleVideo}>toggle video</button>
+                <button onClick={toggleAudio}>Toggle Audio</button>
             </div>
         </>
     );
