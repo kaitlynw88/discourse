@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import app from "../firebase.js";
 import { getDatabase, ref, onValue, push } from "firebase/database";
 
-const UserProfile = () => {
-    const [user, setUser] = useState([]);
+const UserProfile = (props) => {
+    const [users, setUsers] = useState([]);
+    
+    let localUser = props.userName
     
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -16,17 +18,16 @@ const UserProfile = () => {
          onValue(dbRef, (resp) => {
              const data = resp.val();
              const updatedDatabaseInfo = [];
-
+             
              for (let key in data) {
                  updatedDatabaseInfo.push({
                      key: key,
-                     name: data[key],
-                 });
-             }
-             // Passing that array INTO our setComments function to update our stateful variable
-
-             setUser(updatedDatabaseInfo);
-         });
+                     user: data[key],
+                    });
+                }
+                setUsers(updatedDatabaseInfo);
+                console.log(updatedDatabaseInfo)
+            });
      }, []);
 
 
@@ -42,16 +43,20 @@ const UserProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log("click")
 
         const userObject = {
-            firstname: firstName,
-            lastname: lastName,
-            age:age,
+            email: localUser,
+            info:{
+                firstname: firstName,
+                lastname: lastName,
+                age:age,
+            }
         };
 
         const database = getDatabase(app);
         const dbRef = ref(database, "users");
-
+        
         push(dbRef, userObject);
 
         setFirstName("");
@@ -60,42 +65,69 @@ const UserProfile = () => {
     };
 
     return (
-        <div>{}
-            <h2>This is the user profile page</h2>
-            <form action="submit">
-                <input
-                    type="text"
-                    id="firstName"
-                    onChange={handlefirstNameChange}
-                    value={firstName}
-                />
+        <div>
+            <h2>Your profile is: {localUser}</h2>
 
-                <input
-                    type="text"
-                    id="lastName"
-                    onChange={handlastNameChange}
-                    value={lastName}
-                />
-                <input
-                    type="number"
-                    id="age"
-                    onChange={handleAgeChange}
-                    value={age}
-                />
-                <button onClick={handleSubmit}>Submit info</button>
-            </form>
-            <p>
-                {user.map((indUser) => {
-                    console.log(indUser.name.firstName);
-                    return (
-                        <li key={indUser.key}>
-                            <p>{indUser.name.firstname}</p>
-                            <p>{indUser.name.lastname}</p>
-                            <p>{indUser.name.age}</p>
-                        </li>
-                    );
-                })}
-            </p>
+            <div>
+                {
+                    //check firebase to see if user info exists for user.
+                    // if user info exitsts print info
+                    //else print form
+                    users.map((indUser)=>{
+                        console.log(indUser.user.email)
+                        if(indUser.user.email === localUser){
+                            return(
+                                <p>A user exists!!!</p>
+                            )
+                        }
+                        else{
+                            return(
+                                <p>a user doesnt exists</p>
+                            )
+                        }
+                    })
+            
+                    
+
+                    
+                }
+                
+
+                    
+                    
+                        <p>some words?</p>
+
+                    
+                        
+                    
+
+                    <form action="submit">
+                        <h2>Set up your profile:</h2>
+                        <input
+                            type="text"
+                            id="firstName"
+                            onChange={handlefirstNameChange}
+                            value={firstName}
+                        />
+
+                        <input
+                            type="text"
+                            id="lastName"
+                            onChange={handlastNameChange}
+                            value={lastName}
+                        />
+                        <input
+                            type="number"
+                            id="age"
+                            onChange={handleAgeChange}
+                            value={age}
+                        />
+                        <button onClick={handleSubmit}>Submit info</button>
+                    </form>
+
+                    
+                
+            </div>
         </div>
     );
 };

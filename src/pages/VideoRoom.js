@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
-import AgoraRTC, { createClient } from "agora-rtc-sdk-ng";
-import VideoPlayer from "../components/VideoPlayer.js";
 
 import ChatContainer from "../components/ChatContainer.js";
+import AgoraRTC, { createClient } from "agora-rtc-sdk-ng";
+import { useEffect, useState } from "react";
+import VideoPlayer from "../components/VideoPlayer";
 
-const APP_ID = "99ee7677a8a745ed94b7f7f03fdab53e";
-const TOKEN =
-    "007eJxTYDD5vu303bmbv8oH75tgwhH345pN3AaFupze87M+3tLpeNapwJBsYJmckmpoYmlgmgYkzCxNDZPSkpJNU1JTk9KMkiwE/C4mNwQyMihd1mdiZIBAEJ+TISWzODm/tKg4lYEBANf/JAA=";
-const CHANNEL = "discourse";
+const APP_ID = "c09cde14905f4906951bfbc5deebf2b8";
 
 AgoraRTC.setLogLevel(4);
 
 let agoraCommandQueue = Promise.resolve();
 
-const createAgoraClient = ({ onVideoTrack, onUserDisconnected }) => {
+const createAgoraClient = ({
+    onVideoTrack,
+    onUserDisconnected,
+    APP_ID,
+    CHANNEL,
+    TOKEN,
+}) => {
     const client = createClient({
         mode: "rtc",
         codec: "vp8",
     });
 
     let tracks;
-    
 
     const waitForConnectionState = (connectionState) => {
         return new Promise((resolve) => {
@@ -42,6 +44,9 @@ const createAgoraClient = ({ onVideoTrack, onUserDisconnected }) => {
             client.subscribe(user, mediaType).then(() => {
                 if (mediaType === "video") {
                     onVideoTrack(user);
+                }
+                if (mediaType === "audio") {
+                    user.audioTrack.play();
                 }
             });
         });
@@ -77,10 +82,9 @@ const createAgoraClient = ({ onVideoTrack, onUserDisconnected }) => {
     };
 };
 
-const VideoRoom = (props) => {
+const VideoRoom = ({ CHANNEL, TOKEN, userName }) => {
     const [users, setUsers] = useState([]);
     const [uid, setUid] = useState(null);
-    
 
     useEffect(() => {
         const onVideoTrack = (user) => {
@@ -96,6 +100,9 @@ const VideoRoom = (props) => {
         const { connect, disconnect } = createAgoraClient({
             onVideoTrack,
             onUserDisconnected,
+            APP_ID,
+            CHANNEL,
+            TOKEN,
         });
 
         const setup = async () => {
@@ -124,17 +131,18 @@ const VideoRoom = (props) => {
             // cleanup();
             agoraCommandQueue = agoraCommandQueue.then(cleanup);
         };
-    }, []);
+    }, [CHANNEL, TOKEN]);
 
     return (
         <>
-            {uid}
+           
+           {uid}
             <div
                 style={{
                     display: "flex",
                     justifyContent: "center",
                 }}
-            >
+                >
                 <div
                     style={{
                         display: "grid",
@@ -148,7 +156,7 @@ const VideoRoom = (props) => {
                     ))}
                 </div>
             </div>
-            <ChatContainer userName={props.userName} />
+            <ChatContainer userName={userName} channel={CHANNEL} />
         </>
     );
 };
