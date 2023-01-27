@@ -6,6 +6,7 @@ import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 import HomePage from './pages/HomePage';
 import VideoRoom from './pages/VideoRoom'
+import UserProfile from './components/UserProfile';
 
  
 function App() {
@@ -17,6 +18,7 @@ function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/userprofile" element={<UserProfile />} />
                   <Route path="/videoroom" element={<VideoRoom />} />
               </Routes>
           </div>

@@ -12,7 +12,7 @@ const ChatContainer = (props) => {
 
     useEffect(() => {
         const database = getDatabase(app);
-        const dbRef = ref(database, "comments");
+        const dbRef = ref(database, `comments/${props.channel}`);
 
         onValue(dbRef, (resp) => {
             const data = resp.val();
@@ -28,7 +28,7 @@ const ChatContainer = (props) => {
 
             setComments(updatedDatabaseInfo);
         });
-    }, []);
+    }, [props.channel]);
 
     const handleInputChange = (e) => {
         setUserInput(e.target.value);
@@ -43,7 +43,7 @@ const ChatContainer = (props) => {
         };
 
         const database = getDatabase(app);
-        const dbRef = ref(database, "comments");
+        const dbRef = ref(database, `comments/${props.channel}`);
 
         push(dbRef, commentObject);
 
@@ -52,7 +52,7 @@ const ChatContainer = (props) => {
 
     const handleRemoveComment = (commentId) => {
         const database = getDatabase(app);
-        const dbRef = ref(database, `comments/${commentId}`);
+        const dbRef = ref(database, `comments/${props.channel}/${commentId}`);
 
         remove(dbRef);
     };
@@ -62,7 +62,7 @@ const ChatContainer = (props) => {
           <h3>THis is the chat box</h3>
               <ul id="displayedComments">
                   {comments.map((indComment) => {
-                      // console.log(indComment.key)
+                      console.log(indComment)
                       return (
                           <li key={indComment.key}>
                               <p>{indComment.name.comment}</p>
@@ -81,7 +81,7 @@ const ChatContainer = (props) => {
                   })}
               </ul>
               <form action="submit">
-                  <textarea
+                  <input
                       type="text"
                       id="newComment"
                       onChange={handleInputChange}
