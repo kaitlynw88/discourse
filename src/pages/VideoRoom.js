@@ -1,4 +1,4 @@
-
+//code from Tutorial from Web Dev Cody.
 import ChatContainer from "../components/ChatContainer.js";
 import AgoraRTC, { createClient } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
@@ -124,11 +124,10 @@ const VideoRoom = ({ CHANNEL, TOKEN, userName }) => {
             setUsers([]);
         };
 
-        // setup();
+        
         agoraCommandQueue = agoraCommandQueue.then(setup);
 
         return () => {
-            // cleanup();
             agoraCommandQueue = agoraCommandQueue.then(cleanup);
         };
     }, [CHANNEL, TOKEN]);

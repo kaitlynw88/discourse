@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { getDatabase, ref, push } from "firebase/database";
 
 const ProfileForm = (props) => {
-
     let localUser = props.userName;
     
     const [firstName, setFirstName] = useState("");
@@ -27,23 +26,9 @@ const ProfileForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("click");
-
+    
         const database = getDatabase(app);
         const dbRef = ref(database, "users");
-
-        // onValue(dbRef, (resp) => {
-        //     const data = resp.val();
-        //     const updatedDatabaseInfo = [];
-
-        //     for (let key in data) {
-        //         updatedDatabaseInfo.push({
-        //             key: key,
-        //             user: data[key],
-        //         });
-        //     }
-        //     setUsers(updatedDatabaseInfo);
-        // });
 
         const userObject = {
             email: localUser,
@@ -72,6 +57,7 @@ const ProfileForm = (props) => {
                     id="firstName"
                     onChange={handlefirstNameChange}
                     value={firstName}
+                    required
                 />
 
                 <label htmlFor="lastName">Last Name:</label>
@@ -80,6 +66,7 @@ const ProfileForm = (props) => {
                     id="lastName"
                     onChange={handlastNameChange}
                     value={lastName}
+                    required
                 />
                 <label htmlFor="age">Age:</label>
                 <input
@@ -87,14 +74,16 @@ const ProfileForm = (props) => {
                     id="age"
                     onChange={handleAgeChange}
                     value={age}
+                    required
                 />
 
                 <label htmlFor="bio">Bio:</label>
-                <input
+                <textarea
                     type="text"
                     id="bio"
                     onChange={handleBioChange}
                     value={bio}
+                    required
                 />
                 <button onClick={handleSubmit}>Submit info</button>
             </form>
