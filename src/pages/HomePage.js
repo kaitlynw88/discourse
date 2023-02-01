@@ -73,15 +73,6 @@ const HomePage = () => {
                 <h2>Dashboard</h2>
                 <div className="channels-section">
                     <div className="action-section">
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                placeholder="Enter channel name"
-                                value={channelName}
-                                onChange={handleChange}
-                            />
-                            <button type="submit">Create Channel</button>
-                        </form>
                         {authUser ? (
                             <>
                                 <h2>{`user name is ${authUser.email}`}</h2>
@@ -101,6 +92,17 @@ const HomePage = () => {
                                     </>
                                 ) : (
                                     <>
+                                        <form onSubmit={handleSubmit}>
+                                            <input
+                                                type="text"
+                                                placeholder="Enter channel name"
+                                                value={channelName}
+                                                onChange={handleChange}
+                                            />
+                                            <button type="submit">
+                                                Create Channel
+                                            </button>
+                                        </form>
                                         {activeChannel ? (
                                             <button
                                                 className="join-channel-button"
