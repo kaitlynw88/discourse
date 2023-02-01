@@ -1,133 +1,57 @@
 import { useState, useEffect } from "react";
 import app from "../firebase.js";
-import { getDatabase, ref, onValue, push } from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
+import ProfileForm from "./ProfileForm.js";
 
 const UserProfile = (props) => {
-    const [users, setUsers] = useState([]);
+    
+    const [profileData, setProfileData] = useState([]);
+    const [showForm, setShowForm]=useState(false)
     
     let localUser = props.userName
     
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [age, setAge] = useState("");
-
-     useEffect(() => {
-         const database = getDatabase(app);
-         const dbRef = ref(database, "users");
-
-         onValue(dbRef, (resp) => {
-             const data = resp.val();
-             const updatedDatabaseInfo = [];
-             
-             for (let key in data) {
-                 updatedDatabaseInfo.push({
-                     key: key,
-                     user: data[key],
-                    });
-                }
-                setUsers(updatedDatabaseInfo);
-                console.log(updatedDatabaseInfo)
-            });
-     }, []);
-
-
-    const handlefirstNameChange = (e) => {
-        setFirstName(e.target.value);
-    };
-    const handlastNameChange = (e) => {
-        setLastName(e.target.value);
-    };
-    const handleAgeChange = (e) => {
-        setAge(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("click")
-
-        const userObject = {
-            email: localUser,
-            info:{
-                firstname: firstName,
-                lastname: lastName,
-                age:age,
-            }
-        };
-
+    useEffect(()=>{
         const database = getDatabase(app);
         const dbRef = ref(database, "users");
-        
-        push(dbRef, userObject);
+        onValue(dbRef, (resp)=>{
+            const data= resp.val()
+            for( let key in data){
 
-        setFirstName("");
-        setLastName("");
-        setAge("");
-    };
+                if(data[key].email === localUser){
+                    setProfileData(data[key].info)
+                    return
+                }
+            }
+        })
+
+    },[localUser])
+
+    const handleForm =()=>{
+        setShowForm(!showForm)
+    }
 
     return (
         <div>
-            <h2>Your profile is: {localUser}</h2>
-
-            <div>
-                {
-                    //check firebase to see if user info exists for user.
-                    // if user info exitsts print info
-                    //else print form
-                    users.map((indUser)=>{
-                        console.log(indUser.user.email)
-                        if(indUser.user.email === localUser){
-                            return(
-                                <p>A user exists!!!</p>
-                            )
+            <h2>hello</h2>
+            {profileData.firstname || profileData.lastname ? (
+                <>
+                    <p>{profileData.firstname}</p>
+                    <p>{profileData.lastname}</p>
+                    <p>{profileData.bio}</p>
+                </>
+            ) : (
+                <>
+                    <div>
+                        <p>please set up your profile here</p>
+                        <button onClick={handleForm}>Profile Setup</button>
+                        {showForm ?
+                        <ProfileForm userName={localUser} />
+                        :
+                        <></>
                         }
-                        else{
-                            return(
-                                <p>a user doesnt exists</p>
-                            )
-                        }
-                    })
-            
-                    
-
-                    
-                }
-                
-
-                    
-                    
-                        <p>some words?</p>
-
-                    
-                        
-                    
-
-                    <form action="submit">
-                        <h2>Set up your profile:</h2>
-                        <input
-                            type="text"
-                            id="firstName"
-                            onChange={handlefirstNameChange}
-                            value={firstName}
-                        />
-
-                        <input
-                            type="text"
-                            id="lastName"
-                            onChange={handlastNameChange}
-                            value={lastName}
-                        />
-                        <input
-                            type="number"
-                            id="age"
-                            onChange={handleAgeChange}
-                            value={age}
-                        />
-                        <button onClick={handleSubmit}>Submit info</button>
-                    </form>
-
-                    
-                
-            </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };
