@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import VideoRoom from "./VideoRoom";
 import { uid } from 'uid';
+import UserProfile from "../components/UserProfile";
 
 export const MOD = "MOD";
 export const SPEAKER = "SPK";
@@ -85,32 +86,55 @@ const HomePage = () => {
                             <>
                                 <h2>{`user name is ${authUser.email}`}</h2>
 
-                                {onCall 
-                                    ? 
+                                {onCall ? (
                                     <>
-                                        <VideoRoom userName={authUser.email} TOKEN={token} CHANNEL={activeChannel} /> 
-                                        <button onClick={() => setOnCall(false)}>
+                                        <VideoRoom
+                                            userName={authUser.email}
+                                            TOKEN={token}
+                                            CHANNEL={activeChannel}
+                                        />
+                                        <button
+                                            onClick={() => setOnCall(false)}
+                                        >
                                             to lobby
                                         </button>
                                     </>
-                                    :
-                                    <>{activeChannel 
-                                        ? (<button className="join-channel-button" onClick={() => setOnCall(true)}>{`Join ${activeChannel}`} </button>) 
-                                        : 
-                                        ''}
+                                ) : (
+                                    <>
+                                        {activeChannel ? (
+                                            <button
+                                                className="join-channel-button"
+                                                onClick={() => setOnCall(true)}
+                                            >
+                                                {`Join ${activeChannel}`}{" "}
+                                            </button>
+                                        ) : (
+                                            ""
+                                        )}
                                     </>
-                                }
+                                )}
+                                <UserProfile userName={authUser.email} />
+
                                 <button onClick={userSignOut}>Sign Out</button>
                             </>
                         ) : (
                             <button>
                                 <Link to="/Login"> Login</Link>
                             </button>
-                        )}</div>
+                        )}
+                    </div>
 
                     <ul className="channels-list-inner">
                         {channels.map((channel) => (
-                            <li key={channel} onClick={() => setActiveChannel(channel)} className={channel === activeChannel ? 'active-channel' : 'normal-channel'}>
+                            <li
+                                key={channel}
+                                onClick={() => setActiveChannel(channel)}
+                                className={
+                                    channel === activeChannel
+                                        ? "active-channel"
+                                        : "normal-channel"
+                                }
+                            >
                                 {channel}
                             </li>
                         ))}
