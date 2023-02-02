@@ -8,23 +8,8 @@ const UserProfile = (props) => {
     const [profileData, setProfileData] = useState([]);
     const [showForm, setShowForm]=useState(false)
     
-    let localUser = props.userName
+    let localUser = props.email
     
-    useEffect(()=>{
-        const database = getDatabase(app);
-        const dbRef = ref(database, "users");
-        onValue(dbRef, (resp)=>{
-            const data= resp.val()
-            for( let key in data){
-
-                if(data[key].email === localUser){
-                    setProfileData(data[key].info)
-                    return
-                }
-            }
-        })
-
-    },[localUser])
 
     const handleForm =()=>{
         setShowForm(!showForm)
@@ -33,11 +18,11 @@ const UserProfile = (props) => {
     return (
         <div>
             <h2>hello</h2>
-            {profileData.firstname || profileData.lastname ? (
+            {props.profile? (
                 <>
-                    <p>{profileData.firstname}</p>
-                    <p>{profileData.lastname}</p>
-                    <p>{profileData.bio}</p>
+                    <p>{props.profile.firstname}</p>
+                    <p>{props.profile.lastname}</p>
+                    <p>{props.profile.bio}</p>
                 </>
             ) : (
                 <>
