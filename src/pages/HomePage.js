@@ -27,20 +27,24 @@ const HomePage = () => {
     
     
     useEffect(()=>{
-        const getUsers = async ()=>{
+        const getUsers = async () => {
             const data = await getDocs(usersCollectionRef);
-            setUsers(data.docs.map((doc)=>({...doc.data(), id: doc.id})))
-        }
-            getUsers();
+            setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        };
+        getUsers();
+        console.log(users);
+        // eslint-disable-next-line
     },[]);
 
 
     useEffect(()=>{
-        if(users.length>0 && profile===""){
-           const myUser= users.filter(elem=>elem.email===authUser.email)
-           setProfile(myUser[0])
+        if (users.length > 0 && profile === "") {
+            const myUser = users.filter(
+                (elem) => elem.email === authUser.email
+            );
+            setProfile(myUser[0]);
         }
-        console.log(profile)
+        // eslint-disable-next-line
     },[users]);
 
 
