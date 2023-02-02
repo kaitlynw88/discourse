@@ -64,7 +64,7 @@ const SignUp =()=>{
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
                 />
-                <button disabled={loading} type="submit">
+                <button className="authButton" disabled={loading} type="submit">
                     Sign Up
                 </button>
             </form>

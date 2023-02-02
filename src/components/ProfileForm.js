@@ -1,23 +1,51 @@
+
 import { useEffect, useState } from "react";
+
 import app from "../firebase.js";
 import { Link, redirect } from "react-router-dom";
 import { getDatabase, ref, push } from "firebase/database";
 import {db} from "../firebase";
 import {collection, getDocs, addDoc} from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
 
-const ProfileForm = (props) => {
+const ProfileForm = () => {
+    // let localUser = props.userName;
+    
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [age, setAge] = useState("");
+    const [bio, setBio] = useState("");
+    const [authUser, setAuthUser] = useState(null);
+    const [submitedForm, setSubmittedForm]=useState(false)
 
-    const [user, setUser]=useState({
-        email:props.userEmail,
-        firstName:"",
-        lastName:"",
-        age:"",
-        bio:""
-    })
+    useEffect(() => {
+        const listen = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setAuthUser(user);
+            } else {
+                setAuthUser(null);
+            }
+        });
 
+        return () => {
+            listen();
+        };
+    }, [authUser]);
 
     const [users, setUsers]=useState([])
     const usersCollectionRef=collection(db, "users")
+
+        const userObject = {
+            email: authUser.email,
+            info: {
+                firstname: firstName,
+                lastname: lastName,
+                age: age,
+                bio: bio,
+            },
+        };
+
 
     useEffect(()=>{
         const getUsers = async ()=>{
@@ -26,6 +54,7 @@ const ProfileForm = (props) => {
         }
             getUsers();
     },[])
+
 
     const handleChange=(e)=>{
         let field=e.target.id
@@ -55,6 +84,18 @@ const ProfileForm = (props) => {
         <div>{
             console.log(props,'mypropsm')
             }
+
+        setFirstName("");
+        setLastName("");
+        setAge("");
+        setBio("");
+        setSubmittedForm(true)
+    };
+    return (
+        <div>
+            {!submitedForm 
+            ?
+
             <form action="submit">
                 <h2>Set up your profile:</h2>
                 <label htmlFor="firstName">First Name:</label>
@@ -94,10 +135,17 @@ const ProfileForm = (props) => {
                 
                 <button onClick={handleSubmit}>Submit info</button>
             </form>
+            :
+            <>
+                <p>your profile was successfully submitted</p>
+                <button>
+                    <Link to="/">Back to home</Link>
+                </button>
+            </>
 
-            <button>
-                <Link to="/">Back to home</Link>
-            </button>
+
+            }
+
         </div>
     );
 };

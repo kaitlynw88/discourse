@@ -8,6 +8,8 @@ import UserProfile from "../components/UserProfile";
 import {db} from "../firebase";
 import {collection, getDocs} from "firebase/firestore";
 import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
+import "../styles/homepage.scss"
+
 
 export const MOD = "MOD";
 export const SPEAKER = "SPK";
@@ -55,8 +57,7 @@ const HomePage = () => {
         return () => {
             listen();
         };
-
-
+        
     }, [authUser]);
 
     const userSignOut = () => {
@@ -96,12 +97,14 @@ const HomePage = () => {
     return (
         <>
             <div>
-                <h2>Dashboard</h2>
                 <div className="channels-section">
                     <div className="action-section">
                         {authUser ? (
                             <>
-                                <h2>{`user name is ${authUser.email}`}</h2>
+                                <UserProfile userName={authUser.email} />
+                                <UserProfile userEmail={authUser.email} profile={profile} />
+
+                                <h2>chat rooms</h2>
 
                                 {onCall ? (
                                     <>
@@ -113,7 +116,7 @@ const HomePage = () => {
                                         <button
                                             onClick={() => setOnCall(false)}
                                         >
-                                            to lobby
+                                            leave
                                         </button>
                                     </>
                                 ) : (
@@ -129,19 +132,41 @@ const HomePage = () => {
                                                 Create Channel
                                             </button>
                                         </form>
-                                        {activeChannel ? (
-                                            <button
-                                                className="join-channel-button"
-                                                onClick={() => setOnCall(true)}
-                                            >
-                                                {`Join ${activeChannel}`}{" "}
-                                            </button>
-                                        ) : (
-                                            ""
-                                        )}
+
+                                        <ul className="channels-list-inner">
+                                            {channels.map((channel) => (
+                                                <li
+                                                    key={channel}
+                                                    onClick={() =>
+                                                        setActiveChannel(
+                                                            channel
+                                                        )
+                                                    }
+                                                    className={
+                                                        channel ===
+                                                        activeChannel
+                                                            ? "active-channel"
+                                                            : "normal-channel"
+                                                    }
+                                                >
+                                                    <h3>{channel}</h3>
+                                                    {activeChannel ? (
+                                                        <button
+                                                            className="join-channel-button"
+                                                            onClick={() =>
+                                                                setOnCall(true)
+                                                            }
+                                                        >
+                                                            {`Join ${activeChannel}`}{" "}
+                                                        </button>
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </>
                                 )}
-                                <UserProfile userEmail={authUser.email} profile={profile} />
 
                                 <button onClick={userSignOut}>Sign Out</button>
                             </>
@@ -151,22 +176,6 @@ const HomePage = () => {
                             </button>
                         )}
                     </div>
-
-                    <ul className="channels-list-inner">
-                        {channels.map((channel) => (
-                            <li
-                                key={channel}
-                                onClick={() => setActiveChannel(channel)}
-                                className={
-                                    channel === activeChannel
-                                        ? "active-channel"
-                                        : "normal-channel"
-                                }
-                            >
-                                {channel}
-                            </li>
-                        ))}
-                    </ul>
                 </div>
             </div>
         </>

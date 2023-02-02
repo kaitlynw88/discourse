@@ -1,3 +1,5 @@
+@import "./variables";
+
 .authContainer{
     height:80vh;
     display: flex;
@@ -5,4 +7,22 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    form{
+        display:flex;
+        flex-direction: column;
+        input{
+            padding:10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border:2px solid $fifth;
+        }
+    }
 }
+
+.authButton{
+    padding:10px 0;
+    background-color: $primary;
+    color:$white;
+    margin-bottom: 20px;
+}
+
