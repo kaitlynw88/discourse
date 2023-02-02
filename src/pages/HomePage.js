@@ -5,6 +5,9 @@ import { auth } from "../firebase";
 import VideoRoom from "./VideoRoom";
 import { uid } from 'uid';
 import UserProfile from "../components/UserProfile";
+import {db} from "../firebase";
+import {collection, getDocs} from "firebase/firestore";
+import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
 
 export const MOD = "MOD";
 export const SPEAKER = "SPK";
@@ -16,6 +19,29 @@ const HomePage = () => {
     const [activeChannel, setActiveChannel] = useState(null);
     const [onCall, setOnCall] = useState(false);
     const [token, setToken] = useState(null);
+    const [profile, setProfile]=useState("");
+    const [users, setUsers]=useState([])
+    const usersCollectionRef=collection(db, "users")
+    
+    
+    useEffect(()=>{
+        const getUsers = async ()=>{
+            const data = await getDocs(usersCollectionRef);
+            setUsers(data.docs.map((doc)=>({...doc.data(), id: doc.id})))
+        }
+            getUsers();
+     
+        
+    },[]);
+
+
+    useEffect(()=>{
+        if(users.length>0 && profile===""){
+           const myUser= users.filter(elem=>elem.email===authUser.email)
+           setProfile(myUser[0])
+        }
+    });
+
 
     useEffect(() => {
         const listen = onAuthStateChanged(auth, (user) => {
@@ -115,7 +141,7 @@ const HomePage = () => {
                                         )}
                                     </>
                                 )}
-                                <UserProfile userName={authUser.email} />
+                                <UserProfile userEmail={authUser.email} profile={profile} />
 
                                 <button onClick={userSignOut}>Sign Out</button>
                             </>
