@@ -9,49 +9,36 @@ const UserProfile = (props) => {
     const [profileData, setProfileData] = useState([]);
     // const [showForm, setShowForm]=useState(false)
     
-    let localUser = props.userName
+    let localUser = props.userEmail
     
-    useEffect(()=>{
-        const database = getDatabase(app);
-        const dbRef = ref(database, "users");
-        onValue(dbRef, (resp)=>{
-            const data= resp.val()
-            for( let key in data){
-
-                if(data[key].email === localUser){
-                    setProfileData(data[key].info)
-                    return
-                }
-            }
-        })
-
-    },[localUser])
 
     // const handleForm =()=>{
     //     setShowForm(!showForm)
     // }
 
     return (
+
         <div className="userProfile">
-            {profileData.firstname || profileData.lastname ? (
+            {props.profile.firstname || props.profile.lastname ? (
                 <>
                     <div>
                         <p>
-                            {profileData.firstname} {profileData.lastname}
+                            {props.profile.firstname} {props.profile.lastname}
                         </p>
                     </div>
-                    <p>bio: {profileData.bio}</p>
+                    <p>bio: {props.profile.bio}</p>
+
                 </>
             ) : (
                 <>
                     <div>
                         <p>please set up your profile here</p>
+
                         <button>
                             <Link to="/ProfileForm">
                                 profile setup
                             </Link>
                         </button>
-                        
                        
                     </div>
                 </>
