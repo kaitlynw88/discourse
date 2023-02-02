@@ -7,7 +7,7 @@ import { uid } from 'uid';
 import UserProfile from "../components/UserProfile";
 import {db} from "../firebase";
 import {collection, getDocs} from "firebase/firestore";
-import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
+// import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
 import "../styles/homepage.scss"
 
 
@@ -32,8 +32,6 @@ const HomePage = () => {
             setUsers(data.docs.map((doc)=>({...doc.data(), id: doc.id})))
         }
             getUsers();
-     
-        
     },[]);
 
 
@@ -42,7 +40,8 @@ const HomePage = () => {
            const myUser= users.filter(elem=>elem.email===authUser.email)
            setProfile(myUser[0])
         }
-    });
+        console.log(profile)
+    },[users]);
 
 
     useEffect(() => {
@@ -101,7 +100,6 @@ const HomePage = () => {
                     <div className="action-section">
                         {authUser ? (
                             <>
-                                <UserProfile userName={authUser.email} />
                                 <UserProfile userEmail={authUser.email} profile={profile} />
 
                                 <h2>chat rooms</h2>
