@@ -9,6 +9,7 @@ import VideoRoom from './pages/VideoRoom'
 import UserProfile from './components/UserProfile';
 import ProfileForm from './components/ProfileForm';
 
+
  
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/userprofile" element={<UserProfile />} />
-                  <Route path="/profileform" element={<ProfileForm />} />
+                  <Route path="/profileform" element={<ProfileForm/>} />
                   <Route path="/videoroom" element={<VideoRoom />} />
               </Routes>
           </div>
