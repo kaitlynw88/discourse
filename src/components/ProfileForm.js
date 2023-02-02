@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import app from "../firebase.js";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { getDatabase, ref, push } from "firebase/database";
 import {db} from "../firebase";
-import {collection, getDocs} from "firebase/firestore";
+import {collection, getDocs, addDoc} from "firebase/firestore";
 
 const ProfileForm = (props) => {
-    let localUser = props.userName;
-;
 
     const [user, setUser]=useState({
-        userEmail:"",
+        email:props.userEmail,
         firstName:"",
         lastName:"",
         age:"",
@@ -49,13 +47,13 @@ const ProfileForm = (props) => {
     }
 
    
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        await addDoc(usersCollectionRef,user)
     };
     return (
         <div>{
-            console.log(props)
+            console.log(props,'mypropsm')
             }
             <form action="submit">
                 <h2>Set up your profile:</h2>
@@ -93,6 +91,7 @@ const ProfileForm = (props) => {
                     value={user.bio}
                     required
                 />
+                
                 <button onClick={handleSubmit}>Submit info</button>
             </form>
 
