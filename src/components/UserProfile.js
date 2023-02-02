@@ -8,7 +8,7 @@ const UserProfile = (props) => {
     const [profileData, setProfileData] = useState([]);
     const [showForm, setShowForm]=useState(false)
     
-    let localUser = props.email
+    let localUser = props.userEmail
     
 
     const handleForm =()=>{
@@ -17,7 +17,7 @@ const UserProfile = (props) => {
 
     return (
         <div>
-            <h2>hello</h2>
+            <h2>hello</h2>{console.log(props,'profile props')}
             {props.profile? (
                 <>
                     <p>{props.profile.firstname}</p>
@@ -30,7 +30,7 @@ const UserProfile = (props) => {
                         <p>please set up your profile here</p>
                         <button onClick={handleForm}>Profile Setup</button>
                         {showForm ?
-                        <ProfileForm userName={localUser} />
+                        <ProfileForm userEmail={localUser} />
                         :
                         <></>
                         }
