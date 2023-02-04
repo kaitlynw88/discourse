@@ -5,7 +5,6 @@ const UserProfile = (props) => {
     return (
         <div>
             {/* <h2>hello</h2> */}
-            {console.log(props, "profile props")}
             {props.profile ? (
                 <>
                     <p>
