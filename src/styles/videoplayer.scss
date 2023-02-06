@@ -1,0 +1,36 @@
+@import "./variables";
+.videoBox{
+    .usersVideo{
+        height:200px;
+        width:200px;
+    }
+    .buttonContainer{
+        display:flex;
+        align-items: center;
+        height:80px;
+        button {
+            background: none;
+        }
+        button > *{
+            height:20px;
+            width:20px;
+            padding:10px;
+            color:$white;
+            border-radius: 10px;
+        }
+        .videoTrue{
+            background-color: $primary;
+        }
+        .videoFalse{
+            background-color: $tertiary;
+        }
+        .audioTrue{
+            background-color: $secondary;
+        }
+        .audioFalse{
+            background-color: $tertiary;
+        }
+
+    }
+}
+

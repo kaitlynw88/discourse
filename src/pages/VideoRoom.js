@@ -3,6 +3,7 @@ import ChatContainer from "../components/ChatContainer.js";
 import AgoraRTC, { createClient } from "agora-rtc-sdk-ng";
 import { useEffect, useState } from "react";
 import VideoPlayer from "../components/VideoPlayer";
+import "../styles/videoRoom.scss"
 
 const APP_ID = "c09cde14905f4906951bfbc5deebf2b8";
 
@@ -133,21 +134,11 @@ const VideoRoom = ({ CHANNEL, TOKEN, userName }) => {
     }, [CHANNEL, TOKEN]);
 
     return (
-        <>
+        <div className="videoContainer">
            
            {uid}
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                }}
-                >
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(2, 200px)",
-                    }}
-                >
+            <div>
+                <div className="userContainer">
                     {users.map((user) => (
                         <>
                             <VideoPlayer key={user.uid} user={user} />
@@ -156,7 +147,7 @@ const VideoRoom = ({ CHANNEL, TOKEN, userName }) => {
                 </div>
             </div>
             <ChatContainer userName={userName} channel={CHANNEL} />
-        </>
+        </div>
     );
 };
 

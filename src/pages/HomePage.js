@@ -151,7 +151,10 @@ const HomePage = () => {
                     <div className="action-section">
                         {authUser ? (
                             <>
-                                <UserProfile userEmail={authUser.email} profile={profile} />
+                                <UserProfile
+                                    userEmail={authUser.email}
+                                    profile={profile}
+                                />
 
                                 <h2>chat rooms</h2>
 
@@ -163,6 +166,7 @@ const HomePage = () => {
                                             CHANNEL={activeChannel.channelName}
                                         />
                                         <button
+                                            className="leave"
                                             onClick={() => setOnCall(false)}
                                         >
                                             leave
@@ -170,7 +174,10 @@ const HomePage = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <form className="channelCreate" onSubmit={handleSubmit}>
+                                        <form
+                                            className="channelCreate"
+                                            onSubmit={handleSubmit}
+                                        >
                                             <input
                                                 type="text"
                                                 placeholder="Enter channel name"
@@ -198,30 +205,48 @@ const HomePage = () => {
                                                             : "normal-channel"
                                                     }
                                                 >
-                                                    <h3>{channel.channelName}</h3>
-                                                    {activeChannel&& activeChannel.channelName === channel.channelName ? (
-                                                        <button
-                                                            className="join-channel-button"
-                                                            onClick={() =>
-                                                                setOnCall(true)
-                                                            }
-                                                        >
-                                                            {`Join ${activeChannel.channelName}`}
-                                                        </button>
-                                                    ) : (
-                                                        ""
-                                                    )}
+                                                    <h3>
+                                                        {channel.channelName}
+                                                    </h3>
+
+                                                    <div className="opacityLayer">
+                                                        {activeChannel &&
+                                                        activeChannel.channelName ===
+                                                            channel.channelName ? (
+                                                            <button
+                                                                className="join-channel-button"
+                                                                onClick={() =>
+                                                                    setOnCall(
+                                                                        true
+                                                                    )
+                                                                }
+                                                            >
+                                                                {`Join ${activeChannel.channelName}`}
+                                                            </button>
+                                                        ) : (
+                                                            ""
+                                                        )}
+                                                    </div>
                                                 </li>
                                             ))}
                                         </ul>
                                     </>
                                 )}
 
-                                <button className="signout" onClick={userSignOut}>Sign Out</button>
+                                <button
+                                    className="signout"
+                                    onClick={userSignOut}
+                                >
+                                    Sign out
+                                </button>
                             </>
                         ) : (
                             <div className="homeLogin">
-                                <img className="logo" src={logo} alt="discourse logo" />
+                                <img
+                                    className="logo"
+                                    src={logo}
+                                    alt="discourse logo"
+                                />
                                 <button className="authButton">
                                     <Link to="/Login"> Login</Link>
                                 </button>

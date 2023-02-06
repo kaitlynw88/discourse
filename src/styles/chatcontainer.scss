@@ -1,0 +1,29 @@
+@import "./variables";
+
+.displayedComments {
+    width: 100%;
+    li {
+        text-align: center;
+        border:2px solid rgba(0, 119, 250, 0.5);
+        padding:0;
+        margin:0;
+        width:100;
+        margin:2px 0;;
+        p{
+            margin:0;
+            text-align: left;
+        }
+        .username{
+            opacity: 0.5;
+        }
+    }
+    li:nth-child(odd){
+        background-color:rgba(0, 119, 250, 0.5)
+    }
+}
+.chatForm{
+    width:100%;
+    button{
+        padding:10px;
+    }
+}
