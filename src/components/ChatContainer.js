@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 import app from "../firebase.js"
-import { getDatabase, ref, onValue, push, remove } from "firebase/database";
+import { getDatabase, ref, onValue, push } from "firebase/database";
+import "../styles/chatcontainer.scss"
 
 const ChatContainer = (props) => {
     const [comments, setComments] = useState([]);
@@ -50,37 +51,22 @@ const ChatContainer = (props) => {
         setUserInput("");
     };
 
-    const handleRemoveComment = (commentId) => {
-        const database = getDatabase(app);
-        const dbRef = ref(database, `comments/${props.channel}/${commentId}`);
-
-        remove(dbRef);
-    };
   return (
       <div>
-          <div className="App wrapper">
-          <h3>THis is the chat box</h3>
-              <ul id="displayedComments">
+          <div className="chatContainer">
+          <h3>Comments:</h3>
+              <ul className="displayedComments" id="displayedComments">
                   {comments.map((indComment) => {
                       console.log(indComment)
                       return (
                           <li key={indComment.key}>
                               <p>{indComment.name.comment}</p>
-                              <p>{indComment.name.username}</p>
-
-                              <button
-                                  className="closeButton"
-                                  onClick={() =>
-                                      handleRemoveComment(indComment.key)
-                                  }
-                              >
-                                  X
-                              </button>
+                              <p className='username'>{indComment.name.username}</p>
                           </li>
                       );
                   })}
               </ul>
-              <form action="submit">
+              <form className="chatForm" action="submit">
                   <input
                       type="text"
                       id="newComment"
