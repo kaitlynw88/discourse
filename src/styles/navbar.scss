@@ -1,0 +1,10 @@
+@import "./variables";
+
+nav{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    img{
+        width:100px;
+    }
+}

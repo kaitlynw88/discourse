@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
+import "../styles/userprofile.scss"
 
 const UserProfile = (props) => {
     
     return (
-        <div>
+        <div className="userProfile">
             {/* <h2>hello</h2> */}
             {props.profile ? (
                 <>
-                    <p>
+                    <h3 className="userName">
                         {props.profile.firstName} {props.profile.lastName}
-                    </p>
+                    </h3>
                     <div>
                         <p>{props.profile.bio}</p>
                     </div>

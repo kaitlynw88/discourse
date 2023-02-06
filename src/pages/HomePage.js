@@ -11,6 +11,8 @@ import {collection, getDocs} from "firebase/firestore";
 import "../styles/homepage.scss";
 import {onValue, ref,set} from "firebase/database";
 
+import logo from "../assets/discourse.svg";
+
 
 export const MOD = "MOD";
 export const SPEAKER = "SPK";
@@ -168,7 +170,7 @@ const HomePage = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <form onSubmit={handleSubmit}>
+                                        <form className="channelCreate" onSubmit={handleSubmit}>
                                             <input
                                                 type="text"
                                                 placeholder="Enter channel name"
@@ -215,12 +217,15 @@ const HomePage = () => {
                                     </>
                                 )}
 
-                                <button onClick={userSignOut}>Sign Out</button>
+                                <button className="signout" onClick={userSignOut}>Sign Out</button>
                             </>
                         ) : (
-                            <button>
-                                <Link to="/Login"> Login</Link>
-                            </button>
+                            <div className="homeLogin">
+                                <img className="logo" src={logo} alt="discourse logo" />
+                                <button className="authButton">
+                                    <Link to="/Login"> Login</Link>
+                                </button>
+                            </div>
                         )}
                     </div>
                 </div>

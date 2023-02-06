@@ -58,7 +58,7 @@ const Login = () => {
             <div>
                 <h3>
                     Need to make an account?
-                    <Link to="/signup">sign Up</Link>
+                    <Link to="/signup"> Signup</Link>
                 </h3>
             </div>
         </div>

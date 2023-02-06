@@ -5,4 +5,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    .userName{
+        text-transform: capitalize;
+    }
+    p{
+        opacity: 0.6;
+    }
 }
