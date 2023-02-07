@@ -274,6 +274,7 @@ const HomePage = () => {
                                                             </button>{authUser.email===channel.userEmail?(  <button onClick={() => {
                                                                 deleteChannelFromRealtimeDB(channel.channelName)
                                                                 setChannels(channels.filter((elem) => elem.channelName !== channel.channelName));
+                                                                setActiveChannel(null)
                                                             }}>Delete</button>):""}
                                                           
                                                             </>
