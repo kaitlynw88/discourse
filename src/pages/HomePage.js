@@ -256,6 +256,9 @@ const HomePage = () => {
                                                     <h3>
                                                         {channel.channelName}
                                                     </h3>
+                                                    <p>
+                                                        Date: {channel.eventTime}
+                                                    </p>
 
                                                     <div className="opacityLayer">
                                                         {activeChannel &&
@@ -271,7 +274,9 @@ const HomePage = () => {
                                                                 }
                                                             >
                                                                 {`Join ${activeChannel.channelName}`}
-                                                            </button>{authUser.email===channel.userEmail?(  <button onClick={() => {
+                                                            </button>{
+                                                            // this button is only visible to the user who created the channel
+                                                            authUser.email===channel.userEmail?(  <button onClick={() => {
                                                                 deleteChannelFromRealtimeDB(channel.channelName)
                                                                 setChannels(channels.filter((elem) => elem.channelName !== channel.channelName));
                                                                 setActiveChannel(null)
