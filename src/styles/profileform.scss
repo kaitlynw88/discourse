@@ -1,0 +1,15 @@
+@import "./variables";
+
+.profileForm{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    textarea{
+        margin-bottom: 20px;
+    }
+    button{
+        width:180px;
+        margin: 0 auto;
+        // background-color:$secondary;
+    }   
+}

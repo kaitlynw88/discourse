@@ -6,6 +6,8 @@ import { db } from "../firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
+import "../styles/profileform.scss"
+import "../styles/basestyles.scss"
 
 const ProfileForm = () => {
     // const [authUser, setAuthUser] = useState(null);
@@ -113,12 +115,12 @@ const ProfileForm = () => {
                     required
                 />
 
-                <button onClick={handleSubmit}>Submit info</button>
+                <button className="authButton" onClick={handleSubmit}>Submit info</button>
             </form>
             :
             <>
                 <p>your profile was successfully submitted</p>
-                <button>
+                <button className="authButton">
                     <Link to="/">Back to home</Link>
                 </button>
             </>

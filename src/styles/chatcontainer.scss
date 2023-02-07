@@ -23,7 +23,18 @@
 }
 .chatForm{
     width:100%;
-    button{
-        padding:10px;
-    }
+}
+
+.postButton{
+    background-color: $primary;
+    border: 3px solid $primary;
+    transition-duration: 0.3s;
+        &:hover,
+        &:focus {
+            border: 3px solid;
+            box-shadow: inset 0 0 1px $black;
+            outline-offset: 15px;
+            outline-color: $black;
+            text-shadow: 1px 1px 2px $fifth;
+        }
 }
