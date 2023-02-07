@@ -23,10 +23,11 @@ const HomePage = () => {
     const [channelName, setChannelName] = useState("");
     const [activeChannel, setActiveChannel] = useState(null);
     const [onCall, setOnCall] = useState(false);
-    // const [token, setToken] = useState(null);
+    const [token, setToken] = useState(null);
     const [profile, setProfile]=useState("");
     const [users, setUsers]=useState([])
     const usersCollectionRef=collection(db, "users")
+    const [eventTime, setEventTime]=useState(null)
     
     
     useEffect(()=>{
@@ -86,24 +87,21 @@ const HomePage = () => {
     const generateToken = async (channelName) => {
         // https://discourse-token-server.up.railway.app/access_token?channelName=test&role=subscriber&uid=1234&expireTime=86400
         let id = uid(10);
-        console.log("uid", id);
         const response = await fetch(`https://discourse-token-server.up.railway.app/access_token?channelName=${channelName}&expireTime=86400`
         );
         const data = await response.json();
         return data.token;
     };
 
-    const addChannelToRealtimeDB = async (channelName, token, userEmail=null) => {
+    const addChannelToRealtimeDB = async (channelName, eventTime, userEmail=null) => {
         try {
             const channelRef = ref(RealtimeDatabase, "channels/" + channelName);
             await set(channelRef, {
                 channelName: channelName,
                 createdAt: Date.now(),
-                token: token,
+                eventTime: eventTime,
                 userEmail: userEmail,
             });
-          
-           
         }
         catch (error) {
             console.log('Error Posting:',error);
@@ -123,24 +121,33 @@ const HomePage = () => {
             
             channelName: channelName,
             createdAt: createdAt,
-            token: token,
+            eventTime: eventTime,
             userEmail: userEmail
         }]);
-        // Add the channel to database
-        
-        addChannelToRealtimeDB(channelName, token, authUser.userEmail)
 
-        // await addChannelToFirestore(channelName);
-        // Update the UI to show the new channel in a list of available channels
+        
+        addChannelToRealtimeDB(channelName, eventTime, authUser.userEmail)
+
         setChannelName("");
     }
 
-    const handleChange = (e) => {
-        setChannelName(e.target.value);
+  
+
+    const timeConverter = (datetime_local) => {
+        // This function convert the datetime_local to timestamp
+        var timestamp = new Date(datetime_local).getTime();
+        return timestamp;
     }
+  
 
-    // Set channel creation time
-
+    const handleChange = (e) => {
+        if(e.target.id==="channelName"){
+            setChannelName(e.target.value);
+        }
+        if(e.target.id==="eventTime"){
+            setEventTime(e.target.value);
+        }
+    }
 
 
 
@@ -162,7 +169,7 @@ const HomePage = () => {
                                     <>
                                         <VideoRoom
                                             userName={authUser.email}
-                                            TOKEN={activeChannel.token}
+                                            TOKEN={token}
                                             CHANNEL={activeChannel.channelName}
                                         />
                                         <button
@@ -180,9 +187,16 @@ const HomePage = () => {
                                         >
                                             <input
                                                 type="text"
+                                                id="channelName"
                                                 placeholder="Enter channel name"
                                                 value={channelName}
                                                 onChange={handleChange}
+                                            />
+                                            <label>Event Time</label>
+                                            <input type="datetime-local" 
+                                            value={eventTime}
+                                            id="eventTime"
+                                            onChange={handleChange}
                                             />
                                             <button type="submit">
                                                 Create Channel
@@ -193,10 +207,18 @@ const HomePage = () => {
                                             {channels.map((channel) => (
                                                 <li
                                                     key={channel.name}
-                                                    onClick={() =>
-                                                        setActiveChannel(
+                                                    onClick={async () =>
+
+                                                        {
+                                                            setToken(await generateToken(channel.channelName))
+
+                                                            
+                                                            setActiveChannel(
                                                             channel
                                                         )
+                                                        console.log('current token:'+token, 'currentChannel:'+channel.channelName)
+
+                                                    }
                                                     }
                                                     className={
                                                         channel ===
