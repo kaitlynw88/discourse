@@ -87,7 +87,7 @@ const HomePage = () => {
         // eslint-disable-next-line
         let id = uid(10);
         const response = await fetch(
-            `https://discourse-token-server.up.railway.app/access_token?channelName=${channelName}&expireTime=86400`
+            `https://discourse-token-server.up.railway.app/access_token?channelName=${channelName}`
         );
         const data = await response.json();
         return data.token;
@@ -98,6 +98,7 @@ const HomePage = () => {
         eventTime,
         userEmail = null
     ) => {
+      console.log("added")
         try {
             const channelRef = ref(RealtimeDatabase, "channels/" + channelName);
             await set(channelRef, {
@@ -122,6 +123,7 @@ const HomePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(eventTime)
         // eslint-disable-next-line
         let token = await generateToken(channelName);
 
@@ -135,10 +137,10 @@ const HomePage = () => {
                 eventTime: eventTime,
                 userEmail: userEmail,
             },
-        ]);
-
+          ]);
+          
         addChannelToRealtimeDB(channelName, eventTime, authUser.email);
-
+        
         setChannelName("");
     };
 
@@ -159,19 +161,28 @@ const HomePage = () => {
 
     useEffect(() => {
         // This function delete the channel from the realtime database if the event time is passed of one hour
-        // To make sure we don't delete the channel before the event time we add 3600 seconds to the event time
+        // To make sure we don't delete the channel before the event time we add 7200 seconds to the event time
         if (channels.length > 0) {
             channels.forEach((channel) => {
-                let now = Date.now();
-                let eventTime = timeConverter(channel.eventTime) + 3600;
-                if (eventTime < now) {
-                    deleteChannelFromRealtimeDB(channel.channelName);
-                    setChannels(
-                        channels.filter(
-                            (elem) => elem.channelName !== channel.channelName
-                        )
-                    );
-                }
+              console.log(channel)
+                let now = Date.now() + 100000;
+                console.log(`now is ${now}`)
+                console.log(typeof(now))
+                let eventTime =
+                    parseInt(timeConverter(channel.eventTime)) + 259200;
+                // let eventTime = now + 8200
+                console.log(`eventTime is ${eventTime}`)
+                console.log(typeof(eventTime))
+                console.log(eventTime < now )
+                // if (eventTime < now) {
+                  
+                //     deleteChannelFromRealtimeDB(channel.channelName);
+                //     setChannels(
+                //         channels.filter(
+                //             (elem) => elem.channelName !== channel.channelName
+                //         )
+                //     );
+                // }
             });
         }
     }, [channels]);
@@ -216,6 +227,7 @@ const HomePage = () => {
                                                 placeholder="Enter channel name"
                                                 value={channelName}
                                                 onChange={handleChange}
+                                                required
                                             />
                                             <label>Event Time</label>
                                             <input
@@ -223,6 +235,7 @@ const HomePage = () => {
                                                 value={eventTime}
                                                 id="eventTime"
                                                 onChange={handleChange}
+                                                required
                                             />
                                             <button type="submit">
                                                 Create Channel
@@ -231,7 +244,9 @@ const HomePage = () => {
 
                                         <ul className="channels-list-inner">
                                             {channels.map((channel) => (
+                            
                                                 <li
+                                          
                                                     key={channel.name}
                                                     onClick={async () => {
                                                         setToken(
@@ -257,6 +272,18 @@ const HomePage = () => {
                                                             : "normal-channel"
                                                     }
                                                 >
+                                                  {/* {timeConverter(channel.eventTime) > Date.now() ? 
+                                                      <p>Event starting soon!</p>
+                                                      
+                                                      
+                                                  
+                                                  :
+                                                <>
+                                                  <p>Event is over</p>
+                                                </>
+                                                } */}
+                
+                                              
                                                     <h3>
                                                         {channel.channelName}
                                                     </h3>
