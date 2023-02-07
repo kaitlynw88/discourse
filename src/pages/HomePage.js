@@ -84,10 +84,10 @@ const HomePage = () => {
 
     // Form related functions
     const generateToken = async (channelName) => {
-        // https://discourse-token-server.up.railway.app/access_token?channelName=test&role=subscriber&uid=1234&expireTime=6400
+        // https://discourse-token-server.up.railway.app/access_token?channelName=test&role=subscriber&uid=1234&expireTime=86400
         let id = uid(10);
         console.log("uid", id);
-        const response = await fetch(`https://discourse-token-server.up.railway.app/access_token?channelName=${channelName}`
+        const response = await fetch(`https://discourse-token-server.up.railway.app/access_token?channelName=${channelName}&expireTime=86400`
         );
         const data = await response.json();
         return data.token;
