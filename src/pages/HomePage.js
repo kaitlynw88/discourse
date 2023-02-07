@@ -9,7 +9,7 @@ import { db,RealtimeDatabase } from "../firebase";
 import {collection, getDocs} from "firebase/firestore";
 // import { hasSelectionSupport } from "@testing-library/user-event/dist/utils";
 import "../styles/homepage.scss";
-import {onValue, ref,set} from "firebase/database";
+import {onValue, ref,set,remove} from "firebase/database";
 
 import logo from "../assets/discourse.svg";
 
@@ -83,6 +83,8 @@ const HomePage = () => {
         signOut(auth);
     };
 
+    
+
     // Form related functions
     const generateToken = async (channelName) => {
         // https://discourse-token-server.up.railway.app/access_token?channelName=test&role=subscriber&uid=1234&expireTime=86400
@@ -110,6 +112,16 @@ const HomePage = () => {
         
     };
 
+    const deleteChannelFromRealtimeDB = async (channelName) => {
+        try {
+            const channelRef = ref(RealtimeDatabase, "channels/" + channelName);
+            await remove(channelRef);
+        }
+
+        catch (error) {
+            console.log('Error Deleting:',error);
+        }   };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         let token = await generateToken(channelName);
@@ -126,7 +138,7 @@ const HomePage = () => {
         }]);
 
         
-        addChannelToRealtimeDB(channelName, eventTime, authUser.userEmail)
+        addChannelToRealtimeDB(channelName, eventTime, authUser.email)
 
         setChannelName("");
     }
@@ -148,6 +160,20 @@ const HomePage = () => {
             setEventTime(e.target.value);
         }
     }
+
+    useEffect(() => {
+        // This function delete the channel from the realtime database if the event time is passed of one hour 
+        // To make sure we don't delete the channel before the event time we add 3600 seconds to the event time
+        if (channels.length > 0) {
+            channels.forEach((channel) => {
+                let now=Date.now()
+                let eventTime=timeConverter(channel.eventTime)+3600
+                if(eventTime<now){
+                    deleteChannelFromRealtimeDB(channel.channelName)
+                    setChannels(channels.filter((elem) => elem.channelName !== channel.channelName));
+                }
+        }
+        )};}, [channels]);
 
 
 
@@ -235,6 +261,7 @@ const HomePage = () => {
                                                         {activeChannel &&
                                                         activeChannel.channelName ===
                                                             channel.channelName ? (
+                                                                <>
                                                             <button
                                                                 className="join-channel-button"
                                                                 onClick={() =>
@@ -244,7 +271,14 @@ const HomePage = () => {
                                                                 }
                                                             >
                                                                 {`Join ${activeChannel.channelName}`}
-                                                            </button>
+                                                            </button>{authUser.email===channel.userEmail?(  <button onClick={() => {
+                                                                deleteChannelFromRealtimeDB(channel.channelName)
+                                                                setChannels(channels.filter((elem) => elem.channelName !== channel.channelName));
+                                                            }}>Delete</button>):""}
+                                                          
+                                                            </>
+
+                                                    
                                                         ) : (
                                                             ""
                                                         )}
