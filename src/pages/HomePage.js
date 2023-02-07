@@ -169,7 +169,7 @@ const HomePage = () => {
                                             className="leave"
                                             onClick={() => setOnCall(false)}
                                         >
-                                            leave
+                                            leave room
                                         </button>
                                     </>
                                 ) : (
