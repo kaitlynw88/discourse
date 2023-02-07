@@ -1,4 +1,6 @@
+import { Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
+
 import "../styles/userprofile.scss"
 import "../styles/basestyles.scss"
 
@@ -9,6 +11,15 @@ const UserProfile = (props) => {
             {/* <h2>hello</h2> */}
             {props.profile ? (
                 <>
+                    {props.profile.avatar ? (
+            <Avatar
+              alt="Remy Sharp"
+              src={props.profile.avatar}
+              sx={{ width: 156, height: 156 }}
+            />
+          ) : (
+            ""
+          )}
                     <h3 className="userName">
                         {props.profile.firstName} {props.profile.lastName}
                     </h3>
@@ -29,6 +40,7 @@ const UserProfile = (props) => {
             )}
         </div>
     );
+
 };
 
 export default UserProfile;
