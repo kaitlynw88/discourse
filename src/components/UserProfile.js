@@ -5,7 +5,6 @@ const UserProfile = (props) => {
     
     return (
         <div className="userProfile">
-            {/* <h2>hello</h2> */}
             {props.profile ? (
                 <>
                     <h3 className="userName">
