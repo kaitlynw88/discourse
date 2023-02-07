@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../styles/userprofile.scss"
+import "../styles/basestyles.scss"
 
 const UserProfile = (props) => {
     
@@ -17,7 +18,7 @@ const UserProfile = (props) => {
                 </>
             ) : (
                 <>
-                    <div>
+                    <div className="setUpProfile">
                         <p>please set up your profile here</p>
                         
                         <button>
