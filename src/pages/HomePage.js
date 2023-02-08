@@ -169,20 +169,20 @@ const HomePage = () => {
                 console.log(`now is ${now}`)
                 console.log(typeof(now))
                 let eventTime =
-                    parseInt(timeConverter(channel.eventTime)) + 259200;
+                    parseInt(timeConverter(channel.eventTime)) + 7200000;
                 // let eventTime = now + 8200
                 console.log(`eventTime is ${eventTime}`)
                 console.log(typeof(eventTime))
                 console.log(eventTime < now )
-                // if (eventTime < now) {
-                //     console.log(`deleted at now:${now} when eventtime is: ${eventTime}`)
-                //     deleteChannelFromRealtimeDB(channel.channelName);
-                //     setChannels(
-                //         channels.filter(
-                //             (elem) => elem.channelName !== channel.channelName
-                //         )
-                //     );
-                // }
+                if (eventTime < now) {
+                    console.log(`deleted at now:${now} when eventtime is: ${eventTime}`)
+                    deleteChannelFromRealtimeDB(channel.channelName);
+                    setChannels(
+                        channels.filter(
+                            (elem) => elem.channelName !== channel.channelName
+                        )
+                    );
+                }
             });
         }
     }, [channels]);
