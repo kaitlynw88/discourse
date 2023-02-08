@@ -34,9 +34,16 @@
     color: $white;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     padding:20px;
     position: relative;
+    h3 {
+        z-index: 20;
+        text-transform: capitalize;
+        font-size: 1.75rem;   
+        }
+    p{
+        margin:0;
+    }
     .opacityLayer{
         border-radius: 20px;
         padding: 20px;
@@ -54,7 +61,7 @@
         }
     }
 }
-.join-channel-button{
+.join-channel-button, .deleteChannel{
     z-index: 20;
     padding:10px;
     background-color: $white;
@@ -69,9 +76,14 @@
             text-shadow: 1px 1px 2px $fifth;
         }
 }
-h3{
-    z-index: 20;
-    text-transform: capitalize;
+
+.deleteChannel{
+    position:absolute;
+    padding:0;
+    height:40px;
+    width:40px;
+    top:10px;
+    right:10px;
 }
 
 .homeLogin{
@@ -111,7 +123,6 @@ h3{
 .channelCreate{
     width:300px;
     button{
-        // padding:10px;
         background-color: $primary;
         border: 3px solid $primary;
         transition-duration: 0.3s;
@@ -123,7 +134,6 @@ h3{
                 outline-color: $black;
                 text-shadow: 1px 1px 2px $fifth;
             }
-        
             a {
                 color: $black;
             }
