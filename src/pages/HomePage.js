@@ -88,6 +88,7 @@ const HomePage = () => {
         let id = uid(10);
         const response = await fetch(
             `https://discourse-token-server.up.railway.app/access_token?channelName=${channelName}`
+            //changed &expireTime=86400 to &expireTime=172800
         );
         const data = await response.json();
         return data.token;
@@ -161,11 +162,10 @@ const HomePage = () => {
 
     useEffect(() => {
         // This function delete the channel from the realtime database if the event time is passed of one hour
-        // To make sure we don't delete the channel before the event time we add 7200 seconds to the event time
+        // To make sure we don't delete the channel before the event time we add 48hrs or 172800 seconds to the event time
         if (channels.length > 0) {
             channels.forEach((channel) => {
-              console.log(channel)
-                let now = Date.now() + 100000;
+                let now = Date.now();
                 console.log(`now is ${now}`)
                 console.log(typeof(now))
                 let eventTime =
@@ -175,7 +175,7 @@ const HomePage = () => {
                 console.log(typeof(eventTime))
                 console.log(eventTime < now )
                 // if (eventTime < now) {
-                  
+                //     console.log(`deleted at now:${now} when eventtime is: ${eventTime}`)
                 //     deleteChannelFromRealtimeDB(channel.channelName);
                 //     setChannels(
                 //         channels.filter(
