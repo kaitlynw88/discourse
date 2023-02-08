@@ -162,20 +162,13 @@ const HomePage = () => {
 
     useEffect(() => {
         // This function delete the channel from the realtime database if the event time is passed of one hour
-        // To make sure we don't delete the channel before the event time we add 48hrs or 172800 seconds to the event time
+        // To make sure we don't delete the channel before the event time we add 2hrs or 7200000 milliseconds to the event time
         if (channels.length > 0) {
             channels.forEach((channel) => {
                 let now = Date.now();
-                console.log(`now is ${now}`)
-                console.log(typeof(now))
                 let eventTime =
                     parseInt(timeConverter(channel.eventTime)) + 7200000;
-                // let eventTime = now + 8200
-                console.log(`eventTime is ${eventTime}`)
-                console.log(typeof(eventTime))
-                console.log(eventTime < now )
                 if (eventTime < now) {
-                    console.log(`deleted at now:${now} when eventtime is: ${eventTime}`)
                     deleteChannelFromRealtimeDB(channel.channelName);
                     setChannels(
                         channels.filter(
